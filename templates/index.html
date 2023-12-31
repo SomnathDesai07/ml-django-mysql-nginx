@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>House Price Prediction</title>
+</head>
+<style>
+input[type=text], select {
+  width: 20%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* Center-align dropdown options */
+select {
+  text-align-last: center;
+}
+
+input[type=submit] {
+  width: 20%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  text-align: center; /* Center the content within the div */
+}
+
+label {
+  text-transform: uppercase; /* Convert labels to uppercase */
+  margin-bottom: 8px; /* Add space below labels */
+  display: block; /* Display labels as blocks (one above the other) */
+}
+</style>
+<body>
+<center>
+    <h2>House Price Prediction</h2>
+    <div>
+        <form method="post" action="{% url 'result' %}">
+            {% csrf_token %}
+            <label for="{{ form.location.id_for_label }}">Location</label>
+            {{ form.location }}
+            <br>
+            <label for="{{ form.size.id_for_label }}">BHK</label>
+            {{ form.size }}
+            <br>
+            <label for="{{ form.total_sqf.id_for_label }}">SQ Feet Area</label>
+            {{ form.total_sqf }}
+            <br>
+            <label for="{{ form.bath.id_for_label }}">Bathroom</label>
+            {{ form.bath }}
+            <br>
+            <input type="submit" value="Predict">
+        </form>
+    </div>
+</center>
+</body>
+</html>
+

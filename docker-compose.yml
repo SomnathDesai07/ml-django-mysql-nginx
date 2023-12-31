@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  ml:
+    image: bang_house
+    container_name: 'jupyter_cont'
+    volumes:
+      - ml-model-data:/app
+
+  db:
+    image: mysql:latest
+    container_name: 'mysql_cont'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: BangHouse
+      MYSQL_PASSWORD: root
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+
+  django_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 'django_cont'
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && gunicorn BangHouse.wsgi:application --bind 0.0.0.0:8000"]
+
+  nginx:
+    build:
+      context: ./nginx
+    image: nginx
+    container_name: 'nginx_cont'
+    ports:
+      - "80:80"
+    depends_on:
+      - django_app
+
+volumes:
+  ml-model-data:
