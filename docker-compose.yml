@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ml:
-    image: bang_house
+    image: 498809746580.dkr.ecr.ap-south-1.amazonaws.com/jupyter_notebook_ecr_repo
     container_name: 'jupyter_cont'
     volumes:
       - ml-model-data:/app
